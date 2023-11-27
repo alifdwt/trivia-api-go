@@ -6,7 +6,7 @@
 2. Clone this repository
 
 ```
-git clone https://github.com/alifdwt/trivia-game-keren-go-echo.git
+git clone https://github.com/alifdwt/trivia-game-keren
 cd trivia-game-keren-go-echo
 ```
 
