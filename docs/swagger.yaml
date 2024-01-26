@@ -1,0 +1,243 @@
+basePath: /api
+definitions:
+  dto.ErrorResult:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: Bad Request
+        type: string
+    type: object
+  dto.SuccessResult:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data: {}
+    type: object
+  models.Question:
+    properties:
+      answer:
+        example: John Doe
+        type: string
+      created_at:
+        example: "2022-01-01 00:00:00"
+        type: string
+      id:
+        example: 1
+        type: integer
+      question:
+        example: What is your name?
+        type: string
+      updated_at:
+        example: "2022-01-01 00:00:00"
+        type: string
+      wrong_answer_1:
+        example: Jane Doe
+        type: string
+      wrong_answer_2:
+        example: Jack Doe
+        type: string
+      wrong_answer_3:
+        example: Jill Doe
+        type: string
+    type: object
+  questionsdto.CreateQuestionRequest:
+    properties:
+      answer:
+        example: John Doe
+        type: string
+      question:
+        example: What is your name?
+        type: string
+      wrong_answer_1:
+        example: Jane Doe
+        type: string
+      wrong_answer_2:
+        example: Jack Doe
+        type: string
+      wrong_answer_3:
+        example: Jill Doe
+        type: string
+    required:
+    - answer
+    - question
+    - wrong_answer_1
+    - wrong_answer_2
+    - wrong_answer_3
+    type: object
+  questionsdto.UpdateQuestionRequest:
+    properties:
+      answer:
+        example: John Doe
+        type: string
+      question:
+        example: What is your name?
+        type: string
+      wrong_answer_1:
+        example: Jane Doe
+        type: string
+      wrong_answer_2:
+        example: Jack Doe
+        type: string
+      wrong_answer_3:
+        example: Jill Doe
+        type: string
+    required:
+    - answer
+    - question
+    - wrong_answer_1
+    - wrong_answer_2
+    - wrong_answer_3
+    type: object
+host: localhost:5000
+info:
+  contact:
+    email: FbV9T@example.com
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API for Trivia
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Trivia API
+  version: "1.0"
+paths:
+  /question:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Question'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Get All Questions
+      tags:
+      - Question
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create Question
+        in: body
+        name: question
+        required: true
+        schema:
+          $ref: '#/definitions/questionsdto.CreateQuestionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Question'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Create Question
+      tags:
+      - Question
+  /question/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Question ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Question'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Delete Question
+      tags:
+      - Question
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Question'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Get Question by ID
+      tags:
+      - Question
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Question ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Question
+        in: body
+        name: question
+        required: true
+        schema:
+          $ref: '#/definitions/questionsdto.UpdateQuestionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Question'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Update Question
+      tags:
+      - Question
+swagger: "2.0"

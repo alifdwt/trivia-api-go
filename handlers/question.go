@@ -21,6 +21,12 @@ func NewQuestionHandler(QuestionRepository repositories.QuestionRepository) *han
 	return &handlerQuestion{QuestionRepository}
 }
 
+// @Tags Question
+// @Summary Get All Questions
+// @Router /question [get]
+// @Produce json
+// @Success 200 {object} dto.SuccessResult{data=[]models.Question}
+// @Failure 500 {object} dto.ErrorResult
 func (h *handlerQuestion) FindAll(c echo.Context) error {
 	questions, err := h.QuestionRepository.FindAll()
 	if err != nil {
@@ -30,6 +36,12 @@ func (h *handlerQuestion) FindAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: questions})
 }
 
+// @Tags Question
+// @Summary Get Question by ID
+// @Router /question/{id} [get]
+// @Produce json
+// @Success 200 {object} dto.SuccessResult{data=models.Question}
+// @Failure 500 {object} dto.ErrorResult
 func (h *handlerQuestion) FindByID(c echo.Context) error {
 	questionId, _ := strconv.Atoi(c.Param("questionId"))
 
@@ -41,6 +53,14 @@ func (h *handlerQuestion) FindByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: question})
 }
 
+// @Tags Question
+// @Summary Create Question
+// @Router /question [post]
+// @Param question body questionsdto.CreateQuestionRequest true "Create Question"
+// @Accept json
+// @Produce json
+// @Success 200 {object} dto.SuccessResult{data=models.Question}
+// @Failure 500 {object} dto.ErrorResult
 func (h *handlerQuestion) Create(c echo.Context) error {
 	request := new(questionsdto.CreateQuestionRequest)
 	if err := c.Bind(request); err != nil {
@@ -71,6 +91,15 @@ func (h *handlerQuestion) Create(c echo.Context) error {
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
 }
 
+// @Tags Question
+// @Summary Update Question
+// @Router /question/{id} [put]
+// @Param id path int true "Question ID"
+// @Param question body questionsdto.UpdateQuestionRequest true "Update Question"
+// @Accept json
+// @Produce json
+// @Success 200 {object} dto.SuccessResult{data=models.Question}
+// @Failure 500 {object} dto.ErrorResult
 func (h *handlerQuestion) Update(c echo.Context) error {
 	request := new(questionsdto.UpdateQuestionRequest)
 	if err := c.Bind(request); err != nil {
@@ -113,6 +142,14 @@ func (h *handlerQuestion) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
 }
 
+// @Tags Question
+// @Summary Delete Question
+// @Router /question/{id} [delete]
+// @Param id path int true "Question ID"
+// @Accept json
+// @Produce json
+// @Success 200 {object} dto.SuccessResult{data=models.Question}
+// @Failure 500 {object} dto.ErrorResult
 func (h *handlerQuestion) Delete(c echo.Context) error {
 	questionId, _ := strconv.Atoi(c.Param("questionId"))
 
